@@ -21,9 +21,9 @@ if (process.env.MODE_ENV === "development") {
   console.log(`Mode: ${process.env.MODE_ENV}`);
 }
 
-app.get("/", (req, res) => {
-  res.send("Hi There");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hi There");
+// });
 
 //mount Routes
 app.use("/api/v1/users", userRoutes);
