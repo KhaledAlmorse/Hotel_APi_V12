@@ -5,7 +5,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 const dbConnection = require("./config/database");
-const UserRoutes = require("./Routers/userRoutes");
+const userRoutes = require("./Routers/userRoutes");
 
 //Connection with db
 dbConnection();
@@ -22,7 +22,7 @@ if (process.env.MODE_ENV === "development") {
 }
 
 //mount Routes
-app.use("/api/v1/users", UserRoutes);
+app.use("/api/v1/users", userRoutes);
 
 const port = process.env.PORT || 7000;
 app.listen(port, () => {
