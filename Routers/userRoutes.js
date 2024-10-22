@@ -4,6 +4,6 @@ const { createUser } = require("../Services/userServices");
 
 const router = express.Router();
 
-router.post("/create", createUser);
+router.post("/", createUser);
 
 module.exports = router;
