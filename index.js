@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config({ path: "config.env" });
 const morgan = require("morgan");
+const cors = require("cors");
 
 const dbConnection = require("./config/database");
 const UserRoutes = require("./Routers/userRoutes");
@@ -13,15 +14,12 @@ const app = express();
 
 //Middlware
 app.use(express.json());
+app.use(cors());
 
 if (process.env.MODE_ENV === "development") {
   app.use(morgan("dev"));
   console.log(`Mode: ${process.env.MODE_ENV}`);
 }
-
-// app.get("/", (req, res) => {
-//   res.send("Hi");
-// });
 
 //mount Routes
 app.use("/api/v1/users", UserRoutes);
