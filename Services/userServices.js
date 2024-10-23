@@ -50,7 +50,7 @@ exports.getUser = asyncHandler(async (req, res) => {
   if (!user) {
     res.status(400).json({ msg: `No Category For This Id: ${id}` });
   }
-  res.status(200).json({ Results: user.length, page, data: user });
+  res.status(200).json({ Results: user.length, data: user });
 });
 
 /**
