@@ -1,5 +1,3 @@
-//**  1-Hotel Booking System Api
-
 const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config({ path: "config.env" });
