@@ -50,7 +50,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 
   const user = await User.findById(id);
   if (!user) {
-    next(new ApiError(`No User Found with ID: ${id}`, 404));
+    return next(new ApiError(`No User Found with ID: ${id}`, 404));
   }
 
   res.status(200).json({ data: user });
@@ -69,7 +69,7 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
     new: true,
   });
   if (!user) {
-    next(new ApiError(`No User Found with ID: ${id}`, 404));
+    return next(new ApiError(`No User Found with ID: ${id}`, 404));
   }
   res.status(200).json({ data: user });
 });
@@ -83,9 +83,9 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 exports.deleteUser = asyncHandler(async (req, res, next) => {
   const id = req.params;
 
-  const user = await User.findByIdAndDelete({ _id: id });
+  const user = await User.findByIdAndDelete(id);
   if (!user) {
-    next(new ApiError(`No User Found with ID: ${id}`, 404));
+    return next(new ApiError(`No User Found with ID: ${id}`, 404));
   }
   res.status(204).json({ status: "Delete Sucess" });
 });
