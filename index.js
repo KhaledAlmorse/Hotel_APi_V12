@@ -24,6 +24,10 @@ if (process.env.MODE_ENV === "development") {
 //mount Routes
 app.use("/api/v1/users", userRoutes);
 
+app.get("/", (req, res) => {
+  res.send("<h1>صلي علي النبي كدا</h1>");
+});
+
 app.all("*", (req, res, next) => {
   next(new ApiError(`Can't find this route:${req.originalUrl}`, 404));
 });
