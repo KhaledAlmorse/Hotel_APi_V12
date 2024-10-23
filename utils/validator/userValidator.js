@@ -7,7 +7,6 @@ exports.getUserValidator = [
 ];
 
 exports.createUserValidator = [
-  check("id").isMongoId().withMessage("Invalid Id Format"),
   check("userName")
     .notEmpty()
     .withMessage("Username Required")
