@@ -1,8 +1,8 @@
 const slugify = require("slugify");
 const asyncHandler = require("express-async-handlr");
 
-const ApiError = require("../utils/apiError");
 const User = require("../Models/userSchema");
+const ApiError = require("../utils/apiError");
 
 /**
  * @description Create User
@@ -83,7 +83,7 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 exports.deleteUser = asyncHandler(async (req, res, next) => {
   const id = req.params;
 
-  const user = await User.findByIdAndDelete(id);
+  const user = await User.findByIdAndDelete({ _id: id });
   if (!user) {
     next(new ApiError(`No User Found with ID: ${id}`, 404));
   }
