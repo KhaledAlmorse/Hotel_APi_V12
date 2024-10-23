@@ -24,6 +24,12 @@ if (process.env.MODE_ENV === "development") {
 //mount Routes
 app.use("/api/v1/users", userRoutes);
 
+app.all("*", (req, res, next) => {
+  const err = new Error(`Can't find this route:${req.originalUrl}`);
+  next(err.message);
+});
+
+//Global error handling middlware
 app.use((err, req, res, next) => {
   res.status(400).json({ err });
 });
