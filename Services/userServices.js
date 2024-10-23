@@ -10,10 +10,10 @@ const User = require("../Models/userSchema");
  */
 
 exports.createUser = asyncHandler(async (req, res) => {
-  const { name, email, password, phone, role } = req.body;
+  const { userName, email, password, phone, role } = req.body;
   const user = await User.create({
-    name,
-    slug: slugify(name),
+    userName,
+    slug: slugify(userName),
     email,
     password,
     phone,
