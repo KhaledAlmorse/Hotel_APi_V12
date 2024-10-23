@@ -46,11 +46,11 @@ exports.getUsers = asyncHandler(async (req, res) => {
  */
 
 exports.getUser = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-
-  const user = await User.findById(id);
+  const user = await User.findById(req.params.id);
   if (!user) {
-    return next(new ApiError(`No User Found with ID: ${id}`, 404));
+    return next(
+      new ApiError(`No User For This with ID: ${req.params.id}`, 404)
+    );
   }
 
   res.status(200).json({ data: user });
@@ -63,13 +63,13 @@ exports.getUser = asyncHandler(async (req, res, next) => {
  */
 
 exports.updateUser = asyncHandler(async (req, res, next) => {
-  const id = req.params;
-
-  const user = await User.findByIdAndUpdate({ _id: id }, req.body, {
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
   if (!user) {
-    return next(new ApiError(`No User Found with ID: ${id}`, 404));
+    return next(
+      new ApiError(`No User For This with ID: ${req.params.id}`, 404)
+    );
   }
   res.status(200).json({ data: user });
 });
@@ -81,11 +81,11 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
  */
 
 exports.deleteUser = asyncHandler(async (req, res, next) => {
-  const id = req.params;
-
-  const user = await User.findByIdAndDelete(id);
+  const user = await User.findByIdAndDelete(req.params.id);
   if (!user) {
-    return next(new ApiError(`No User Found with ID: ${id}`, 404));
+    return next(
+      new ApiError(`No User For This with ID: ${req.params.id}`, 404)
+    );
   }
   res.status(204).json({ status: "Delete Sucess" });
 });
