@@ -34,6 +34,7 @@ exports.getUsers = asyncHandler(async (req, res) => {
   const page = req.query.page * 1 || 1;
   const limit = req.query.limit * 1 || 5;
   const skip = (page - 1) * limit;
+
   const user = await User.find({}).skip(skip).limit(limit);
 
   res.status(200).json({ Results: user.length, page, data: user });
@@ -48,9 +49,7 @@ exports.getUsers = asyncHandler(async (req, res) => {
 exports.getUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.params.id);
   if (!user) {
-    return next(
-      new ApiError(`No User For This with ID: ${req.params.id}`, 404)
-    );
+    return next(new ApiError(`No User For This ID: ${req.params.id}`, 404));
   }
 
   res.status(200).json({ data: user });
@@ -67,9 +66,7 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
     new: true,
   });
   if (!user) {
-    return next(
-      new ApiError(`No User For This with ID: ${req.params.id}`, 404)
-    );
+    return next(new ApiError(`No User For This ID: ${req.params.id}`, 404));
   }
   res.status(200).json({ data: user });
 });
@@ -83,9 +80,7 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 exports.deleteUser = asyncHandler(async (req, res, next) => {
   const user = await User.findByIdAndDelete(req.params.id);
   if (!user) {
-    return next(
-      new ApiError(`No User For This with ID: ${req.params.id}`, 404)
-    );
+    return next(new ApiError(`No User For This ID: ${req.params.id}`, 404));
   }
   res.status(204).json({ status: "Delete Sucess" });
 });
