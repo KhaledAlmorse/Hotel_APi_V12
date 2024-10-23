@@ -47,11 +47,6 @@ exports.getUsers = asyncHandler(async (req, res) => {
 exports.getUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  // Check if the id is a valid MongoDB ObjectId
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ msg: `Invalid ID format: ${id}` });
-  }
-
   const user = await User.findById(id);
   if (!user) {
     return res.status(404).json({ msg: `No User Found with ID: ${id}` });

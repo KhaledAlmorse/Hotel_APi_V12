@@ -24,6 +24,10 @@ if (process.env.MODE_ENV === "development") {
 //mount Routes
 app.use("/api/v1/users", userRoutes);
 
+app.use((err, req, res, next) => {
+  res.status(400).json({ err });
+});
+
 const port = process.env.PORT || 7000;
 app.listen(port, () => {
   console.log(`App Running on Port ${port}`);
