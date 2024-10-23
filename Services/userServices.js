@@ -1,6 +1,7 @@
 const slugify = require("slugify");
 const asyncHandler = require("express-async-handlr");
 
+const ApiError = require("../utils/apiError");
 const User = require("../Models/userSchema");
 
 /**
@@ -44,12 +45,12 @@ exports.getUsers = asyncHandler(async (req, res) => {
  * @private admin/manger
  */
 
-exports.getUser = asyncHandler(async (req, res) => {
+exports.getUser = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
 
   const user = await User.findById(id);
   if (!user) {
-    return res.status(404).json({ msg: `No User Found with ID: ${id}` });
+    next(new ApiError(`No User Found with ID: ${id}`, 404));
   }
 
   res.status(200).json({ data: user });
@@ -61,12 +62,15 @@ exports.getUser = asyncHandler(async (req, res) => {
  * @private admin/manger
  */
 
-exports.updateUser = asyncHandler(async (req, res) => {
+exports.updateUser = asyncHandler(async (req, res, next) => {
   const id = req.params;
 
   const user = await User.findByIdAndUpdate({ _id: id }, req.body, {
     new: true,
   });
+  if (!user) {
+    next(new ApiError(`No User Found with ID: ${id}`, 404));
+  }
   res.status(200).json({ data: user });
 });
 
@@ -76,12 +80,12 @@ exports.updateUser = asyncHandler(async (req, res) => {
  * @private admin/manger
  */
 
-exports.deleteUser = asyncHandler(async (req, res) => {
+exports.deleteUser = asyncHandler(async (req, res, next) => {
   const id = req.params;
 
   const user = await User.findByIdAndDelete(id);
   if (!user) {
-    res.status(400).json({ msg: `No Category For This Id: ${id}` });
+    next(new ApiError(`No User Found with ID: ${id}`, 404));
   }
   res.status(204).json({ status: "Delete Sucess" });
 });

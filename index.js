@@ -8,6 +8,7 @@ const morgan = require("morgan");
 const dbConnection = require("./config/database");
 const userRoutes = require("./Routers/userRoutes");
 const ApiError = require("./utils/apiError");
+const globalError = require("./Middlware/errorMiddlware");
 
 //Connection with db
 dbConnection();
@@ -30,20 +31,18 @@ app.all("*", (req, res, next) => {
 });
 
 //Global error handling middlware
-app.use((err, req, res, next) => {
-  err.statusCode = err.statusCode || 500;
-  err.status = err.status || "error";
-  res
-    .status(err.statusCode)
-    .json({
-      status: err.status,
-      error: err,
-      message: err.message,
-      stack: err.stack,
-    });
-});
+app.use(globalError);
 
 const port = process.env.PORT || 7000;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`App Running on Port ${port}`);
+});
+
+//OutSide Express
+process.on("unhandledRejection", (err) => {
+  console.error(`unhandledRejection Error :${err.name} | ${err.message}`);
+  server.close(() => {
+    console.log("Shutting down...");
+    process.exit(1);
+  });
 });
