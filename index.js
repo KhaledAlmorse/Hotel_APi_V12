@@ -7,6 +7,7 @@ const morgan = require("morgan");
 
 const dbConnection = require("./config/database");
 const userRoutes = require("./Routers/userRoutes");
+const ApiError = require("./utils/apiError");
 
 //Connection with db
 dbConnection();
@@ -25,8 +26,7 @@ if (process.env.MODE_ENV === "development") {
 app.use("/api/v1/users", userRoutes);
 
 app.all("*", (req, res, next) => {
-  const err = new Error(`Can't find this route:${req.originalUrl}`);
-  next(err.message);
+  next(new ApiError(`Can't find this route:${req.originalUrl}`, 404));
 });
 
 //Global error handling middlware
