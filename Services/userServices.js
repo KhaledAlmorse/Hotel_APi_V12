@@ -1,15 +1,24 @@
+const slugify = require("slugify");
+const asyncHandler = require("express-async-handlr");
+
 const User = require("../Models/userSchema");
 
-exports.createUser = (req, res) => {
-  const name = req.body.name;
-  const newUser = new User({ name });
+/**
+ * @description Create User
+ * @route Post /api/v1/users
+ * @private admin/manger
+ */
 
-  newUser
-    .save()
-    .then((doc) => {
-      res.json(doc);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-};
+exports.createUser = asyncHandler(async (req, res) => {
+  const { name, email, password, phone, role } = req.body;
+  const user = await User.create({
+    name,
+    slug: slugify(name),
+    email,
+    password,
+    phone,
+    role,
+  });
+
+  res.status(201).json({ status: "Success", data: user });
+});
